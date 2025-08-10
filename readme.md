@@ -93,6 +93,10 @@ Spring Boot provides several annotations to simplify the development process. He
 - `@RestController`: Combines `@Controller` and `@ResponseBody`, indicating that the class is a controller and the return values of its methods should be written directly to the HTTP response body.
 - `@RequestMapping`: Maps HTTP requests to specific handler methods in the controller.
 - `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`: Shorthand annotations for `@RequestMapping` with specific HTTP methods.
+- `@Repository`: Indicates that a class is a Data Access Object (DAO) and should be managed by the Spring container.
+- `@Autowired`: Indicates that a dependency should be injected by the Spring container.
+- `@Service`: Indicates that a class is a service component in the Spring context.
+- `@Component`: Indicates that a class is a Spring component and should be managed by the Spring container.
 ---
 
 ## Dependency injection
@@ -130,3 +134,100 @@ In this example, `OrderService` depends on `PaymentService`, and the `PaymentSer
 In OOP, the Open/Closed Principle states that a class should be open for extension but closed for modification. This means that you can extend the functionality of a class without modifying its existing code. Dependency injection helps achieve this by allowing you to inject different implementations of a dependency without changing the class that uses it.
 This makes your code more flexible and maintainable, as you can easily switch between different implementations of a dependency without changing the class that uses it.
 (keep it in mind that this is a tool not a rule, so you can use it when you need it, but don't overuse it)
+
+### Setter Injection
+
+Setter injection is another way to implement dependency injection in Spring Boot. In this approach, the dependency is provided through a setter method rather than through the constructor. Here's an example:
+
+```java
+@Service
+public class OrderService {
+    private PaymentService paymentService;
+
+    @Autowired
+    public void setPaymentService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
+    public void placeOrder(Order order) {
+        // Use paymentService to process the payment
+        paymentService.processPayment(order.getPaymentDetails());
+        // Logic to place the order
+    }
+}
+```
+In this example, the `PaymentService` is injected into the `OrderService` using a setter method. This allows for more flexibility, as the dependency can be changed at runtime if needed.
+
+```java
+@Service
+public class PaymentService {
+    public void processPayment(PaymentDetails paymentDetails) {
+        // Logic to process the payment
+    }
+}
+```
+In this example, `OrderService` depends on `PaymentService`, and the `PaymentService` is injected into the `OrderService` constructor. This allows for better separation of concerns and makes it easier to test the `OrderService` class by mocking the `PaymentService`.
+
+### Spring IoC Container
+IoC means Inversion of Control. It is a design principle in which the control of object creation and management is transferred from the application code to a container or framework. In the context of Spring, the IoC container is responsible for instantiating, configuring, and managing the lifecycle of application objects, known as beans.
+
+this is use for Dependancy injection using springboot framework
+two ways possible 
+    - by annotation
+    - by code implementation
+
+### By Annotation
+
+make the class with `@Service` because it indicates that the class is a service component in the Spring context.
+
+```java
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+    private final PaymentService paymentService;
+
+    ///  if we have multiple constructor then AutoWired is important
+    /// in single constructor doesn't really need it
+//    @Autowired
+    public OrderService(@Qualifier("paypal") PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
+    public void placeOrder() {
+        paymentService.processPayment(10);
+    }
+}
+```
+`@Autowired` is for multi-constructor injection for single constructor there are no need to use it, and also make the payment service class with `@Service` annotation.
+```java
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
+
+@Service("strip")
+@Primary
+public class StripPaymentService implements PaymentService {
+    @Override
+    public void processPayment(double amount) {
+        System.out.println("STRIPE");
+        System.out.println("amount: " + amount);
+    }
+}
+```
+here `@Primary` indicates that this is the primary implementation of the `PaymentService` interface.
+because if there are multiple beans of the same type, Spring will use the one marked with `@Primary` by default.
+
+ In the Main method, declare ApplicationContext and then getBean of the class
+```java
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Main {
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        OrderService orderService = context.getBean(OrderService.class);
+        // Use orderService to place an order
+    }
+}
+```
