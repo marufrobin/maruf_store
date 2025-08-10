@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MarufstoreApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MarufstoreApplication.class, args);
+//        SpringApplication.run(MarufstoreApplication.class, args);
+        var orderService = new OrderService(new PayPalPaymentService());
+        orderService.placeOrder();
     }
 
 }

@@ -126,3 +126,7 @@ public class PaymentService {
 }
 ```
 In this example, `OrderService` depends on `PaymentService`, and the `PaymentService` is injected into the `OrderService` constructor. This allows for better separation of concerns and makes it easier to test the `OrderService` class by mocking the `PaymentService`.
+
+In OOP, the Open/Closed Principle states that a class should be open for extension but closed for modification. This means that you can extend the functionality of a class without modifying its existing code. Dependency injection helps achieve this by allowing you to inject different implementations of a dependency without changing the class that uses it.
+This makes your code more flexible and maintainable, as you can easily switch between different implementations of a dependency without changing the class that uses it.
+(keep it in mind that this is a tool not a rule, so you can use it when you need it, but don't overuse it)
