@@ -94,3 +94,35 @@ Spring Boot provides several annotations to simplify the development process. He
 - `@RequestMapping`: Maps HTTP requests to specific handler methods in the controller.
 - `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`: Shorthand annotations for `@RequestMapping` with specific HTTP methods.
 ---
+
+## Dependency injection
+
+What is dependency injection?
+ans: Dependency injection is a design pattern used in software development to achieve Inversion of Control (IoC) between classes and their dependencies. It allows a class to receive its dependencies from an external source rather than creating them itself, promoting loose coupling and enhancing testability.
+for example:
+imagine you have two classes one is `OrderService` and another is payment service `PaymentService` and you want to use the `PaymentService` in the `OrderService` class, you can inject the `PaymentService` into the `OrderService` class using dependency injection.
+so by this example you can see that in for payment service you can use any payment service like `PayPal`, `Stripe` or any other payment service, so you can easily switch between them without changing the `OrderService` class.
+Here is an example of how you can implement dependency injection in Spring Boot using annotations:
+```java
+@Service
+public class OrderService {
+    private final PaymentService paymentService;
+
+    @Autowired
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+    public void placeOrder(Order order) {
+        // Use paymentService to process the payment
+        paymentService.processPayment(order.getPaymentDetails());
+        // Logic to place the order
+    }
+}
+@Service
+public class PaymentService {
+    public void processPayment(PaymentDetails paymentDetails) {
+        // Logic to process the payment
+    }
+}
+```
+In this example, `OrderService` depends on `PaymentService`, and the `PaymentService` is injected into the `OrderService` constructor. This allows for better separation of concerns and makes it easier to test the `OrderService` class by mocking the `PaymentService`.
