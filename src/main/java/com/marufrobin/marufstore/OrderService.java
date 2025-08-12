@@ -7,20 +7,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderService {
     private final PaymentService paymentService;
-    private final NotificationService notificationService;
 
     ///  if we have multiple constructor then AutoWired is important
     /// in single constructor doesn't really need it
 //    @Autowired
-    public OrderService(@Qualifier("paypal") PaymentService paymentService, @Qualifier("sms") NotificationService notificationService) {
+    public OrderService(@Qualifier("paypal") PaymentService paymentService) {
         this.paymentService = paymentService;
-        this.notificationService = notificationService;
     }
 
 
     public void placeOrder() {
         paymentService.processPayment(10);
-        notificationService.sendNotification();
 
     }
 

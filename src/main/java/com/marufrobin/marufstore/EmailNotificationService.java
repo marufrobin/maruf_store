@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Primary
 public class EmailNotificationService implements NotificationService {
     @Override
-    public void sendNotification() {
-        System.out.println("Email Notification Service");
+    public void sendNotification(String message) {
+        System.out.println("Email Notification Service" + message);
     }
 }

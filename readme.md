@@ -32,7 +32,7 @@ To add dependencies in a Spring Boot project, you can modify the `pom.xml` file 
 <dependency>
     <groupId>group-id</groupId>
     <artifactId>artifact-id</artifactId>
-    // Optional: specify the version recommended for the dependency
+    <!-- Optional: specify the version recommended for the dependency -->
     <version>version</version>
 </dependency>
 ```
@@ -236,3 +236,78 @@ public class Main {
     }
 }
 ```
+## Implementing Notification Service in Spring Boot
+
+To implement a notification system in Spring Boot, you can use dependency injection to inject different notification services (like Email, SMS, or Push notifications) into your application. Here’s a step-by-step tutorial:
+
+### 1. Define a NotificationService Interface
+
+Create an interface that defines the contract for sending notifications:
+
+```java
+public interface NotificationService {
+    void sendNotification(String message, String recipient);
+}
+```
+
+### 2. Create Implementations
+
+You can have multiple implementations, such as Email and SMS:
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service("emailNotificationService")
+public class EmailNotificationService implements NotificationService {
+    @Override
+    public void sendNotification(String message, String recipient) {
+        // Logic to send email
+        System.out.println("Sending EMAIL to " + recipient + ": " + message);
+    }
+}
+
+@Service("smsNotificationService")
+public class SmsNotificationService implements NotificationService {
+    @Override
+    public void sendNotification(String message, String recipient) {
+        // Logic to send SMS
+        System.out.println("Sending SMS to " + recipient + ": " + message);
+    }
+}
+```
+
+### 3. Inject NotificationService into Your Business Logic
+
+Use constructor injection and `@Qualifier` to specify which implementation to use:
+
+```java
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class NotificationManager {
+    private final NotificationService notificationService;
+
+    @Autowired
+    public NotificationManager(@Qualifier("emailNotificationService") NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    public void notifyOrderPlaced(Order order) {
+        notificationService.sendNotification("Order placed successfully!", order.getCustomerEmail());
+    }
+}
+```
+
+### 4. Switch Implementations Easily
+
+To use a different notification method, change the `@Qualifier` value in the constructor. This demonstrates the flexibility of dependency injection.
+
+### 5. Test the Notification
+
+You can test the notification service by running your application and placing an order. The appropriate notification will be sent based on the injected implementation.
+
+---
+
+This approach allows you to add new notification types (like push notifications) without modifying existing business logic, following the Open/Closed Principle.

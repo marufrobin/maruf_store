@@ -1,5 +1,5 @@
 package com.marufrobin.marufstore;
 
 public interface NotificationService {
-    void sendNotification();
+    void sendNotification(String message);
 }

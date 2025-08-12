@@ -15,6 +15,9 @@ public class MarufstoreApplication {
 //        var orderService = new OrderService();
 //        orderService.setPaymentService(new PayPalPaymentService());
         orderService.placeOrder();
+
+        NotificationManager notificationManager = context.getBean(NotificationManager.class);
+        notificationManager.sendNotification("Notification SEND");
     }
 
 }
