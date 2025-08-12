@@ -12,8 +12,13 @@
     - [application.properties (Application configuration)](#applicationproperties-application-configuration)
     - [Learn about SpringBoot MVC (Model-View-Controller) architecture](#learn-about-springboot-mvc-model-view-controller-architecture)
     - [Learn about SpringBoot Annotations](#learn-about-springboot-annotations)
-
-
+- [Adding Dependencies](#adding-dependencies)
+- [Running the Application](#running-the-application)
+- [Testing the Application](#testing-the-application)
+- [Use of application.properties](#use-of-applicationproperties)
+- [SpringBoot MVC](#springboot-mvc)
+- [SpringBoot Annotations](#springboot-annotations)
+- [SpringBoot Testing](#springboot-testing)
 
 ---
 ## Adding Dependencies
