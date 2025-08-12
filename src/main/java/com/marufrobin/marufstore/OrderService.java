@@ -11,7 +11,7 @@ public class OrderService {
     ///  if we have multiple constructor then AutoWired is important
     /// in single constructor doesn't really need it
 //    @Autowired
-    public OrderService(@Qualifier("paypal") PaymentService paymentService) {
+    public OrderService(@Qualifier("strip") PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 

@@ -82,6 +82,26 @@ spring.datasource.password=password
 spring.application.name=myapp
 # page size
 app.page-size=10
+stripe.apiurl=https://api.stripe.com
+stripe.enabled=true
+stripe.timeout=1000
+stripe.supported-currencies=USD,EUR,GBP
+```
+
+```java
+    @Value("${stripe.apiurl}")
+    private String apiUrl;
+
+    @Value("${stripe.enabled}")
+    private boolean stripeEnabled;
+
+    /// "${stripe.timeout:3000}" this means that if we don't give any value
+    /// then it will give default value 3000
+    @Value("${stripe.timeout:3000}")
+    private int stripeTimeout;
+
+    @Value("${stripe.supported-currencies}")
+    private List<String> supportedCurrency;
 ```
 You can add or modify properties in this file to customize the behavior of your application. Spring Boot will automatically read these properties and apply them at runtime.
 
