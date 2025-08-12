@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: marufstore
+
+app:
+  page-size: 10
+
+stripe:
+  apiurl: https://api.stripe.com
+  enabled: true
+  timeout: 1000
+  supported-currencies: USD,EUR,GBR

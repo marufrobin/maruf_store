@@ -105,6 +105,28 @@ stripe.supported-currencies=USD,EUR,GBP
 ```
 You can add or modify properties in this file to customize the behavior of your application. Spring Boot will automatically read these properties and apply them at runtime.
 
+## Use of application.yaml
+
+The `application.yaml` file serves a similar purpose as `application.properties`, but it uses YAML syntax, which is more human-readable and supports hierarchical data structures.`yaml` means `Yet another markup language`. You can define your configuration properties in `application.yaml` like this:
+```yaml
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: password
+  application:
+    name: myapp
+app:
+  page-size: 10
+stripe:
+  apiurl: https://api.stripe.com
+  enabled: true
+  timeout: 1000
+  supported-currencies: USD,EUR,GBP
+```
+
 ## SpringBoot MVC
 Spring Boot follows the Model-View-Controller (MVC) architecture, which separates the application into three interconnected components:
 - Model: Represents the data and business logic of the application.
